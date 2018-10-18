@@ -28,6 +28,9 @@ namespace twozerofoureight
         public void Notify(Model m)
         {
             UpdateBoard(((TwoZeroFourEightModel)m).GetBoard());
+            UpdateScore(((TwoZeroFourEightModel) m).GetScore());
+            UpdateGameOver(((TwoZeroFourEightModel)m).CheckGameover());
+            UpdateGameOver(((TwoZeroFourEightModel)m).CheckGameOverFull());
         }
 
         private void UpdateTile(Label l, int i)
@@ -97,6 +100,64 @@ namespace twozerofoureight
         private void btnDown_Click(object sender, EventArgs e)
         {
             controller.ActionPerformed(TwoZeroFourEightController.DOWN);
+        }
+
+        private void UpdateScore(int score)
+        {
+            lblScore.Text = "Score " + score.ToString();
+        }
+        private void UpdateGameOver(bool check)
+        {
+            if(check)
+            {
+                labGameOver.Text = "GameOver";
+                btnUp.Enabled = false;
+                btnDown.Enabled = false;
+                btnLeft.Enabled = false;
+                btnRight.Enabled = false;
+            }
+        }
+
+        private void btnUp_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch(e.KeyData)
+            {
+                case Keys.W:
+                case Keys.Up:
+                    controller.ActionPerformed(TwoZeroFourEightController.UP);
+                    break;
+                case Keys.S:
+                case Keys.Down:
+                    controller.ActionPerformed(TwoZeroFourEightController.DOWN);
+                    break;
+                case Keys.A:
+                case Keys.Left:
+                    controller.ActionPerformed(TwoZeroFourEightController.LEFT);
+                    break;
+                case Keys.D:
+                case Keys.Right:
+                    controller.ActionPerformed(TwoZeroFourEightController.RIGHT);
+                    break;
+            }
+        }
+
+        private void TwoZeroFourEightView_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Up:
+                    e.IsInputKey = true;
+                    break;
+                case Keys.Down:
+                    e.IsInputKey = true;
+                    break;
+                case Keys.Left:
+                    e.IsInputKey = true;
+                    break;
+                case Keys.Right:
+                    e.IsInputKey = true;
+                    break;
+            }
         }
 
     }
